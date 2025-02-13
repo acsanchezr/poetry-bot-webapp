@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Poetry Bot</title>
+</head>
+
+<body>
+
+    <!-- Navbar
+    <div class="navbar">
+        <ul>
+            <li id="home-tab" class="active"> <a href="index.html">Home</a></li>
+            <li id="about-tab"><a href="about.html">About</a></li>
+        </ul>
+    </div> -->
+
+
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <!--"virtual agent" mssg appears here-->
+            <div class="agent-message">Hello 👋🏽 Welcome to the poem generator! Let me know when you're ready 😎</div>
+        </div>
+        
+        <div class="input-container" id="input-container">
+            <button class="mood-option" id="ready">✨I'm ready!✨</button>
+            <button class="mood-option" id="match-word">Match with word</button>
+        </div>
+
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <p id="poem-title"></p>
+            <p id="poem-author"></p>
+            <p id="poem-text"></p>
+            <button onclick="closeOverlay()">Close</button>
+            <button onclick="generateAnotherPoem()">Give me a different poem</button>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
