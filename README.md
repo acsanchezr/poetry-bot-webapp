@@ -6,7 +6,7 @@ A gentle, cute web app that lets you generate poems through a chat-like interfac
 ## ✨ Features
 
 - 📝 **Generate Poems** – Click "Ready" and receive a randomly selected poem from a Poetry API.
-- 🔍 **(Upcoming!) Word Match** – Input a word, and the app will find a poem that contains it.
+- 🔍 **(In progress) Word Match** – Input a word, and the app will find a poem that contains it.
 - 🔊 **(Future Idea) Sound Effects** – Add sound effects to chat interaction to enhance immersion.
 
 
