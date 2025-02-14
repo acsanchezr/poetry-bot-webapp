@@ -27,7 +27,21 @@ async function getRandomPoem(){
     }
 }
 
+window.onload = (event) => {
+    var welcomeMessage = "Hello 👋🏽 Welcome to the poem generator! Let me know when you're ready 😎";   //this is the first message displayed
+    delayBotMssg(welcomeMessage);
+}
 
+
+//add 1500ms delay to all bot mssgs
+function delayBotMssg(mssg){
+
+    const chatBox = document.getElementById('chat-box');
+
+    setTimeout(() => {
+        chatBox.innerHTML +=`<div class="agent-message">`+mssg+`</div>`;
+    }, 1500);
+}
 
 
 // Open Overlay Function
@@ -40,28 +54,25 @@ function closeOverlay() {
     document.getElementById('overlay').style.display = 'none';
 }
 
+
 // Handle Mood Selection
-function handleMoodSelection(mood) {
+function handleMoodSelection() {
     const chatBox = document.getElementById('chat-box');
+    var mssg = "testing";
 
     chatBox.innerHTML += `<div class="user-message"> ✨I'm ready!✨ <div>`;
-    
-    // First agent response after 0.5s
-    setTimeout(() => {
-        chatBox.innerHTML += `<div class="agent-message">Got it! Let me get a poem for you...</div>`;
 
-        // Second agent response after another 1s (total 1.5s from user input)
-        setTimeout(() => {
-            chatBox.innerHTML += `<div class="agent-message">Done 🤗 Here's your poem: <a href='#' onclick='openOverlay()'>poem.txt</a></div>`;
-        }, 1500);
-        
-    }, 1000); // 1s delay before first agent message
-    // Fetch a poem based on the mood (we just fetch a random poem for now)
+            mssg = "Got it! Let me get a poem for you...";
+            delayBotMssg(mssg);
+
+            //additional delay so that mssgs do not appear at the same time
+            setTimeout(() => {
+                mssg = "Done 🤗 Here's your poem: <a href='#' onclick='openOverlay()'>poem.txt</a>";
+                delayBotMssg(mssg);
+            }, 1500);
+
     getRandomPoem();
 }
-
-// Event Listener for Mood Buttons
-document.getElementById('ready').addEventListener('click', () => handleMoodSelection('ready'));
 
 function generateAnotherPoem() {
     //close overlay window
@@ -69,17 +80,90 @@ function generateAnotherPoem() {
 
     const chatBox = document.getElementById('chat-box');
     
-    // First agent response after 0.5s
-    setTimeout(() => {
-        chatBox.innerHTML += `<div class="agent-message">Another poem? You got it! Just give me a few seconds...</div>`;
+    //"send" user response
+    chatBox.innerHTML += `<div class="user-message"> Give me another poem <div>`;
 
-        // Second agent response after another 1s (total 1.5s from user input)
-        setTimeout(() => {
-            chatBox.innerHTML += `<div class="agent-message">Here you go: <a href='#' onclick='openOverlay()'>poem.txt</a></div>`;
-        }, 1500);
-        
-    }, 1000);
+    //store bot response
+    var mssg_another_poem = "Another poem? You got it! Just give me a moment...";
+    delayBotMssg(mssg_another_poem);
+
+    //additional delay so messages appear consecutively
+    setTimeout(() => {
+        mssg_another_poem = "Here you go: <a href='#' onclick='openOverlay()'>poem.txt</a>";
+        delayBotMssg(mssg_another_poem);
+    }, 1500);
 
     getRandomPoem();
+}
+
+function wordMatch(){
+    //send user response
+    const chatBox = document.getElementById('chat-box');
+    chatBox.innerHTML += `<div class="user-message"> Match with a word <div>`;
+
+    //bot response, prompt user input (just one word), use findWord function
+    var botMssg = "Ok! let's find a poem that matches whatever word you want. Please input your word:"
+    delayBotMssg(botMssg);
+
+    
+                    // Create input field
+                    let inputField = document.createElement("input");
+                    inputField.setAttribute("type", "text");
+                    inputField.setAttribute("id", "word-input");
+                    inputField.setAttribute("placeholder", "Enter a word...");
+                    
+                    // Create submit button
+                    let submitButton = document.createElement("button");
+                    submitButton.setAttribute("id", "submit-word");
+                    submitButton.textContent = "Find Poem";
+
+                    
+    setTimeout(() => {           
+                // Append to chat UI
+                chatBox.appendChild(inputField);
+                chatBox.appendChild(submitButton);
+    }, 1500);
+
+
+    submitButton.addEventListener("click", function() {
+        let userInput = inputField.value.trim();
+        if (userInput) {
+            findWord(userInput);  // Call function to find poem
+            inputField.remove();  // Remove input field after use
+            submitButton.remove(); // Remove button after use
+        } else {
+            alert("Please enter a word!");  // Prevent empty input
+        }
+    });
 
 }
+
+//in-progress
+function findWord(userInput){
+    //use poem API to fetch poems
+    console.log("this is the findWord function");
+    
+    //search poem db to find match with user input word (in progress)
+    fetch('https://poetrydb.org/random')
+    .then(response => response.json())
+    .then(data => {
+        // Loop through the poems directly in the fetched data
+        data.forEach(poem => {
+            console.log(poem.title); // Example: access poem title
+            // console.log(poem.lines);  // Example: access poem lines
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+
+    //return poem with word match, bolded
+
+}
+
+
+// Event Listener for Ready Button
+document.getElementById('ready').addEventListener('click', () => handleMoodSelection());
+
+// Event Listener for Ready Button
+document.getElementById('word-match').addEventListener('click', () => wordMatch());
